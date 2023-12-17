@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Safari Registration</title>
+
+   <link rel="stylesheet" href="css/css.css">
+
+
+
+</head>
+
+<body>
+<div class="container my-2">
+    <h1>Safari List</h1>
+    <a th:href="@{/login}"> Log Out</a>
+
+    <a th:href="@{/showTripForm}" class="btn btn-primary btn-sm mb-3"> Book vehicles from Safari </a>
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=names&sortDir=' + ${reverseSortDir}}">
+                Names</a>
+            </th>
+            <th>Email</th>
+            <th> Mobile</th>
+            <th> Gender</th>
+            <th> Occupation</th>
+            <th> Nationality</th>
+            <th> Location</th>
+            <th> Date</th>
+            <th> Time of Departure</th>
+            <th> Time of Arrival</th>
+            <th> Number of Guest</th>
+            <th> Type of car</th>
+            <th> Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="safari : ${listSafaris}">
+            <td th:text="${safari.names}"></td>
+            <td th:text="${safari.email}"></td>
+            <td th:text="${safari.mobileNumber}"></td>
+            <td th:text="${safari.gender}"></td>
+            <td th:text="${safari.occupation}"></td>
+            <td th:text="${safari.nationality}"></td>
+            <td th:text="${safari.location}"></td>
+            <td th:text="${safari.date}"></td>
+            <td th:text="${safari.timeOfDeparture}"></td>
+            <td th:text="${safari.timeOfArrival}"></td>
+            <td th:text="${safari.numberOfGuests}"></td>
+            <td th:text="${safari.typeOfCar}"></td>
+            <td><a th:href="@{/showTripUpdateForm/{id}(id=${safari.id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteTrip/{id}(id=${safari.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${totalPages >1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                Total Rows:[[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+  '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                  <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+           </span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+'?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
